@@ -1,24 +1,44 @@
 import React, { useEffect, useState } from 'react'
+import { toast } from 'react-toastify';
 import axios from 'axios';
 import './ListFood.css'
+import { deleteFood, getFoodList } from '../../services/FoodService';
 
 const ListFood = () => {
   const [list, setList] =useState([]);
 
+
   const fetchList = async () =>{
-    const response = await axios.get('http://localhost:8080/api/foods');
-    if(response.status==200){
-      console.log(response.data);
-      setList(response.data)
-    }
-    else{
-      toast.error("Error while reading data")
+    try {
+      const data = await getFoodList();
+      setList(data);
+    } catch (error) {
+      toast.error("Error in fetching food list");
     }
   }
+
 
   useEffect( () =>{
     fetchList();
   }, [])
+
+
+  const removeFood = async (id) => {
+    try {
+      const success= await deleteFood(id);
+    if(success){
+      toast.success("Food Item Deleted Successfully");
+      await fetchList();
+    }
+    else{
+      toast.error("Error in deleting food item");
+    }
+    } catch (error) {
+      toast.error("Error in deleting food item");
+    }
+  }
+
+   
   return (
     <div className="py-5 row justify-contet-center">
       <div className="col-11 card">
@@ -43,7 +63,7 @@ const ListFood = () => {
                     <td>{item.name}</td>
                     <td>{item.category}</td>
                     <td>&#8377;{item.price}</td>
-                    <td className='text-danger'><i className="bi bi-x-circle-fill"></i> </td>
+                    <td className='text-danger'><i className="bi bi-x-circle-fill" onClick={() =>removeFood(item.id)}></i> </td>
                   </tr>
                 )
               })

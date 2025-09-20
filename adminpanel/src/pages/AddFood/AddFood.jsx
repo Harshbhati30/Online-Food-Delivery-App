@@ -31,7 +31,7 @@ const AddFood = () => {
       setData({name: '', description: '', category: '' , price: ''});
       setImage(null);
     } catch (error) {
-      toast.error("Error i adding food")
+      toast.error("Error in adding food")
     }
   }
 

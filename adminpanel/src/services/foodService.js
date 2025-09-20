@@ -13,3 +13,23 @@ export const addFood= async(foodData , image) => {
     throw error;
   }
 }
+
+export const getFoodList = async () =>{
+  try {
+     const response = await axios.get(API_URL);
+     return response.data;
+  } catch (error) {
+    console.log("Error while calling getFoodList API " , error);
+    throw error;
+  }
+}
+
+export const deleteFood = async (id) =>{
+  try {
+    const response = await axios.delete(API_URL + '/' + id);
+    return response.status === 204;
+  } catch (error) {
+    console.log("Error while calling deleteFood API " , error);
+    throw error;
+  }
+}
