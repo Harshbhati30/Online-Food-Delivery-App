@@ -1,12 +1,14 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { assets } from '../../assets/assets'
 import { Link } from "react-router-dom";
 import { StoreContext } from '../../context/StoreContext';
+import "./Menubar.css"
 
 
 
 const Menubar = () => {
 
+  const [active, setActive] = useState("home");
   const {quantities} = useContext(StoreContext);
 
   const uniqueCartItems = Object.values(quantities).filter(qty => qty > 0).length;
@@ -20,14 +22,14 @@ const Menubar = () => {
     <div className="collapse navbar-collapse" id="navbarSupportedContent">
       <ul className="navbar-nav me-auto mb-2 mb-lg-0">
         <li className="nav-item">
-          <Link className="nav-link" to="/">Home</Link>
+          <Link className={active === "home" ? "nav-link fw-bold active" : "nav-link"} to="/"  onClick={() => setActive("home")}>Home</Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to="/explore">Explore</Link>
+          <Link className={active === "explore" ? "nav-link fw-bold active" : "nav-link"} to="/explore" onClick={() => setActive("explore")}>Explore</Link>
         </li>
 
          <li className="nav-item">
-          <Link className="nav-link" to="/contact">Contact Us</Link>
+          <Link className={active === "contact-us" ? "nav-link fw-bold active" : "nav-link"} to="/contact"  onClick={() => setActive("contact-us")} >Contact Us</Link>
         </li>
       </ul>
 
