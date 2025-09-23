@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { assets } from '../../assets/assets'
 import { Link } from "react-router-dom";
+import { StoreContext } from '../../context/StoreContext';
 
 
 
 const Menubar = () => {
+
+  const {quantities} = useContext(StoreContext);
+
+  const uniqueCartItems = Object.values(quantities).filter(qty => qty > 0).length;
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
   <div className="container">
@@ -29,7 +34,7 @@ const Menubar = () => {
         <div className="d-flex align-item-center gap-4">
           <div className="position-relative">
             <Link to={'/cart'}> <img src={assets.cart1} alt="" className='position-relative' width={32} height={32} /> </Link>
-            <span className="position-absolute top-0 start-100 translate-middle badge round-pill bg-warning"> 5 </span>
+            <span className="position-absolute top-0 start-100 translate-middle badge round-pill bg-warning"> {uniqueCartItems} </span>
           </div>
           <button className='btn btn-outline-primary'>Login</button>
           <button className='btn btn-outline-success'>Register</button>
