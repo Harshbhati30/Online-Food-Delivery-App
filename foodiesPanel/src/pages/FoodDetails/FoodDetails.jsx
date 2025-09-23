@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import { useParams, useSearchParams } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react'
+import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { fetchFoodDetails } from '../../Service/foodService';
 import { Toast } from 'bootstrap/dist/js/bootstrap.bundle.min';
+import { StoreContext } from '../../context/StoreContext';
 
 const FoodDetails = () => {
 
   const { id} =useParams();
+
+  const { increaseQuantity } = useContext(StoreContext);
 
   const [data,setData]=useState({});
 
@@ -34,10 +37,12 @@ const FoodDetails = () => {
                             </div>
                             <p className="lead"> {data.description}</p>
                             <div className="d-flex">
-                                <button className="btn btn-outline-dark flex-shrink-0" type="button">
+                                <Link to="/cart"> <button className="btn btn-outline-dark flex-shrink-0" type="button" 
+                                onClick={() => increaseQuantity(food.id)}>
                                     <i className="bi-cart-fill me-1"></i>
                                     Add to cart
                                 </button>
+                                </Link>
                             </div>
                         </div>
                     </div>
