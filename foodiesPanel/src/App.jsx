@@ -7,6 +7,7 @@ import Contact from './pages/Contact/Contact'
 import FoodDetails from './pages/FoodDetails/FoodDetails'
 import Cart from './pages/Cart/Cart'
 import PlaceOrder from './pages/PlaceOrder/PlaceOrder'
+import { ToastContainer } from 'react-toastify';
 
 function App() {
 
@@ -15,6 +16,8 @@ function App() {
     <>
     <div>
       <Menubar/>
+      <ToastContainer></ToastContainer>
+      
       <Routes>
         <Route path='/' element={<Home/>}></Route>
         <Route path='/explore' element={<Explore/>}></Route>

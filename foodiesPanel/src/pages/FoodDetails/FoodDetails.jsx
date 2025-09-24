@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Link, useParams, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { fetchFoodDetails } from '../../Service/foodService';
-import { Toast } from 'bootstrap/dist/js/bootstrap.bundle.min';
+import { toast } from 'react-toastify';
 import { StoreContext } from '../../context/StoreContext';
 
 const FoodDetails = () => {
@@ -11,6 +11,7 @@ const FoodDetails = () => {
   const { increaseQuantity } = useContext(StoreContext);
 
   const [data,setData]=useState({});
+  const navigate = useNavigate();
 
   useEffect( () => {
     const loadFoodDetails = async () =>{
@@ -18,12 +19,18 @@ const FoodDetails = () => {
         const FoodData= await fetchFoodDetails(id);
         setData(FoodData);
       } catch (error) {
-        Toast.error("Error while loading food details");
+        toast.error("Error while loading food details");
       }
     }
     loadFoodDetails();
 
   }, [])
+
+  const addtocart = () =>{
+    increaseQuantity(data.id);
+    toast.success("Item added to cart");
+    navigate('/cart');
+  }
   return (
               <section className="py-5">
                 <div className="container px-4 px-lg-5 my-5">
@@ -37,12 +44,12 @@ const FoodDetails = () => {
                             </div>
                             <p className="lead"> {data.description}</p>
                             <div className="d-flex">
-                                <Link to="/cart"> <button className="btn btn-outline-dark flex-shrink-0" type="button" 
-                                onClick={() => increaseQuantity(food.id)}>
+                                <div> <button className="btn btn-outline-dark flex-shrink-0" type="button" 
+                                onClick={addtocart}>
                                     <i className="bi-cart-fill me-1"></i>
                                     Add to cart
                                 </button>
-                                </Link>
+                                </div>
                             </div>
                         </div>
                     </div>
