@@ -1,4 +1,4 @@
-export const CalculateCartTotals = (cartItems, quantities) => {
+export const CalculateCartTotals = (cartItem, quantities) => {
   const subtotal = cartItem.reduce(
     (acc, food) => acc + food.price * quantities[food.id],
     0
