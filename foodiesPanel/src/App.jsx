@@ -6,6 +6,7 @@ import Explore from './pages/ExploreFood/Explore'
 import Contact from './pages/Contact/Contact'
 import FoodDetails from './pages/FoodDetails/FoodDetails'
 import Cart from './pages/Cart/Cart'
+import PlaceOrder from './pages/PlaceOrder/PlaceOrder'
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
         <Route path='/contact' element={<Contact/>}></Route>
         <Route path='/food/:id' element={<FoodDetails/>}></Route>
         <Route path='/cart' element={<Cart/>}></Route>
+        <Route path='/order' element={<PlaceOrder/>}></Route>
       </Routes>
       
    </div>
