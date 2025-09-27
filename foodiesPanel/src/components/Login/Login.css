@@ -1,0 +1,10 @@
+.login-container{
+  background-image: url("../../assets/login3.jpg");
+  background-size: cover;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-position: center;
+
+}

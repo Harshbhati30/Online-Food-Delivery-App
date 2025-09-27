@@ -8,6 +8,8 @@ import FoodDetails from './pages/FoodDetails/FoodDetails'
 import Cart from './pages/Cart/Cart'
 import PlaceOrder from './pages/PlaceOrder/PlaceOrder'
 import { ToastContainer } from 'react-toastify';
+import Register from './components/Register/Register'
+import Login from './components/Login/Login'
 
 function App() {
 
@@ -25,6 +27,8 @@ function App() {
         <Route path='/food/:id' element={<FoodDetails/>}></Route>
         <Route path='/cart' element={<Cart/>}></Route>
         <Route path='/order' element={<PlaceOrder/>}></Route>
+        <Route path='/login' element={ <Login/>}></Route>
+        <Route path='/register' element={ <Register/>}></Route>
       </Routes>
       
    </div>
