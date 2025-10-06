@@ -1,0 +1,34 @@
+package in.harsh.foodiesapi.service;
+
+import in.harsh.foodiesapi.entity.CartEntity;
+import in.harsh.foodiesapi.repository.CartRepository;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
+@Service
+@AllArgsConstructor
+public class CartServiceImpl implements CartService{
+
+    private final CartRepository cartRepository;
+    private final UserService userService;
+
+    @Override
+    public void addToCart(String foodId) {
+        String loggedInUser= userService.findByUserId();
+
+        Optional<CartEntity> cartoptional= cartRepository.findByUserId(loggedInUser);
+
+        CartEntity cart = cartoptional.orElseGet(() -> new CartEntity(loggedInUser, new HashMap<>()));
+
+        Map<String , Integer> cartItems= cart.getItems();
+
+        cartItems.put(foodId,cartItems.getOrDefault(foodId,0)+ 1 );
+        cart.setItems(cartItems);
+        cartRepository.save(cart);
+    }
+}
