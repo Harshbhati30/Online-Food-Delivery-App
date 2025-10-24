@@ -35,6 +35,16 @@ public class CartServiceImpl implements CartService{
         return convertToResponse(cart);
     }
 
+    @Override
+    public CartResponse getCart() {
+        String loggedInUser= userService.findByUserId();
+        CartEntity entity = cartRepository.findByUserId(loggedInUser)
+                .orElse(new CartEntity(null ,loggedInUser, new HashMap<>()));
+
+        return convertToResponse(entity);
+
+    }
+
     private CartResponse convertToResponse(CartEntity cartEntity){
         return CartResponse.builder()
                 .id(cartEntity.getId())
