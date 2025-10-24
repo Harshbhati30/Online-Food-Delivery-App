@@ -1,6 +1,8 @@
 package in.harsh.foodiesapi.service;
 
 import in.harsh.foodiesapi.entity.CartEntity;
+import in.harsh.foodiesapi.io.CartRequest;
+import in.harsh.foodiesapi.io.CartResponse;
 import in.harsh.foodiesapi.repository.CartRepository;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -18,7 +20,7 @@ public class CartServiceImpl implements CartService{
     private final UserService userService;
 
     @Override
-    public void addToCart(String foodId) {
+    public CartResponse addToCart(CartRequest request) {
         String loggedInUser= userService.findByUserId();
 
         Optional<CartEntity> cartoptional= cartRepository.findByUserId(loggedInUser);
@@ -27,8 +29,17 @@ public class CartServiceImpl implements CartService{
 
         Map<String , Integer> cartItems= cart.getItems();
 
-        cartItems.put(foodId,cartItems.getOrDefault(foodId,0)+ 1 );
+        cartItems.put(request.getFoodId(),cartItems.getOrDefault(request.getFoodId(),0)+ 1 );
         cart.setItems(cartItems);
-        cartRepository.save(cart);
+        cart = cartRepository.save(cart);
+        return convertToResponse(cart);
+    }
+
+    private CartResponse convertToResponse(CartEntity cartEntity){
+        return CartResponse.builder()
+                .id(cartEntity.getId())
+                .items(cartEntity.getItems())
+                .userId(cartEntity.getUserId())
+                .build();
     }
 }
