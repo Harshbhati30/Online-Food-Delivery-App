@@ -3,6 +3,7 @@ import './Register.css'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import { registerUser } from '../../Service/authService';
 
 const Register = () => {
 
@@ -23,7 +24,7 @@ const Register = () => {
   const onSubmitHandler = async (event) =>{
     event.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8080/api/register', data);
+      const response = await registerUser(data);
       if (response.status === 201) {
         toast.success('Registration successful!');
         navigate("/login");
