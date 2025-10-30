@@ -11,7 +11,14 @@ const Menubar = () => {
   const navigate = useNavigate();
 
   const [active, setActive] = useState("home");
-  const {quantities} = useContext(StoreContext);
+  const {quantities , token, setToken , setQuantities} = useContext(StoreContext);
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    setToken("");
+    setQuantities({});
+    navigate("/");
+  }
 
   const uniqueCartItems = Object.values(quantities).filter(qty => qty > 0).length;
   return (
@@ -40,8 +47,22 @@ const Menubar = () => {
             <Link to={'/cart'}> <img src={assets.cart1} alt="" className='position-relative' width={32} height={32} /> </Link>
             <span className="position-absolute top-0 start-100 translate-middle badge round-pill bg-warning"> {uniqueCartItems} </span>
           </div>
-          <button className='btn btn-outline-primary' onClick={() => navigate('/login')}>Login</button>
-          <button className='btn btn-outline-success'onClick={() => navigate('/register')}>Register</button>
+          {
+            !token ?
+            <>
+            <button className='btn btn-outline-primary' onClick={() => navigate('/login')}>Login</button>
+            <button className='btn btn-outline-success'onClick={() => navigate('/register')}>Register</button>  </> :
+              <div className="dropdown">
+                <a href="" className='d-block link-body-emphasis text-decoration-none dropdown-toggle' data-bs-toggle="dropdown" aria-expanded="false">
+                  <img src={assets.profile} alt="" width={40} height={40} className='rounded-circle' />
+                </a>
+                <ul className='dropdown-menu text-small'>
+                  <li className='dropdowm-item' onClick={ () => navigate("/myorders")} >Orders</li>
+                  <li className='dropdowm-item' onClick={logout} >Logout</li>
+                </ul>
+              
+              </div>
+          }
         </div>
     </div>
   </div>

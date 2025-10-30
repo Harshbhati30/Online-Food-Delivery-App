@@ -7,13 +7,15 @@ import icecream from './IceCream.jpg'
 import briyani from './Briyani.jpg'
 import springroll from './SpringRoll.jpg'
 import cake from './cake.png'
+import profile from './profile.jpg'
 
 
 
 
 export const assets =  {
   logo,
-  cart1
+  cart1,
+  profile
 }
 
 export const categories = [
