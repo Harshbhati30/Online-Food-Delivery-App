@@ -1,8 +1,42 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './Register.css'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify';
+import axios from 'axios';
 
 const Register = () => {
+
+  const navigate = useNavigate();
+
+  const [data, setData]= useState({
+    name: '',
+    email: '',
+    password: ''
+  })
+
+  const onChangeHandler =(event) =>{
+    const name =event.target.name;
+    const value = event.target.value;
+    setData(data => ({...data, [name]:value}));
+  }
+
+  const onSubmitHandler = async (event) =>{
+    event.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:8080/api/register', data);
+      if (response.status === 201) {
+        toast.success('Registration successful!');
+        navigate("/login");
+      }
+      else{
+        toast.error('Registration failed. Please try again.');
+      }
+    } catch (error) {
+      toast.error('An error occurred. Please try again.');
+    }
+  }
+
+
   return (
     <div className="register-container">
     <div className="row">
@@ -10,19 +44,19 @@ const Register = () => {
         <div className="card border-0 shadow rounded-3 my-5">
           <div className="card-body p-4 p-sm-5">
             <h5 className="card-title text-center mb-5 fw-light fs-5">Sign Up</h5>
-            <form>
+            <form onSubmit={onSubmitHandler}>
               <div className="form-floating mb-3">
-                <input type="text" className="form-control" id="floatingName" placeholder="Enter your name"/>
+                <input type="text" className="form-control" name='name' onChange={onChangeHandler} value={data.name} id="floatingName" placeholder="Enter your name"/>
                 <label htmlFor="floatingInput">Full Name</label>
               </div>
 
               <div className="form-floating mb-3">
-                <input type="email" className="form-control" id="floatingInput" placeholder="name@example.com"/>
+                <input type="email" className="form-control" name='email' onChange={onChangeHandler} value={data.email} id="floatingInput" placeholder="name@example.com"/>
                 <label htmlFor="floatingInput">Email address</label>
               </div>
 
               <div className="form-floating mb-3">
-                <input type="password" className="form-control" id="floatingPassword" placeholder="Password"/>
+                <input type="password" className="form-control" name='password' onChange={onChangeHandler} value={data.password} id="floatingPassword" placeholder="Password"/>
                 <label htmlFor="floatingPassword">Password</label>
               </div>
 
@@ -31,9 +65,9 @@ const Register = () => {
                   in</button>
               </div>
 
-              <div class="d-grid mb-2">
-                <button class="btn btn-outline-danger btn-login text-uppercase " type="submit">
-                  <i class="bi bi-google"></i> Sign in with Google
+              <div className="d-grid mb-2">
+                <button className="btn btn-outline-danger btn-login text-uppercase " type="submit">
+                  <i className="bi bi-google"></i> Sign in with Google
                 </button>
               </div>
 

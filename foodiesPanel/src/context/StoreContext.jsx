@@ -8,6 +8,7 @@ export const StoreContextProvider = (prop) =>{
 
   const [foodList , setFoodList]=useState([]);
   const [quantities, setQuantities]=useState({});
+  const [token , setToken]= useState(" ");
 
 const increaseQuantity = (foodId) => {
   setQuantities(prev => ({
@@ -35,13 +36,14 @@ const removeFromCart = (foodId) => {
     increaseQuantity,
     decreaseQuantity,
     quantities,
-    removeFromCart
+    removeFromCart,
+    token,
+    setToken
   }
 
   useEffect(()=> {
     async function loadData(){
       const data = await fetchFood();
-      console.log("Fetched food data:", data);
       setFoodList(data);
     }
     loadData();
