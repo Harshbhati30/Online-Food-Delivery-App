@@ -38,4 +38,13 @@ public class CartController {
     public void deleteCart(){
         cartService.clearCart();
     }
+
+    @PostMapping("/remove")
+    public CartResponse removeFromCart(@RequestBody CartRequest cartRequest){
+        String foodId = cartRequest.getFoodId();
+        if(foodId == "null" || foodId.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Foiid Id Not Find");
+        }
+        return cartService.removeFromCart(cartRequest);
+    }
 }
