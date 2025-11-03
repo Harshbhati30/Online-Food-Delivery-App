@@ -24,6 +24,7 @@ public class OrderEntity {
     private String paymentStatus;
     private String razorpayOrderId;
     private String orderStatus;
+    private String razorpayPaymentId;
     private String razorpaySignature;
 
 

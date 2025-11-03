@@ -19,5 +19,6 @@ public class OrderResponse {
     private String paymentStatus;
     private String razorpayOrderId;
     private String orderStatus;
+    private List<OrderItems> orderedItems;
 }
 
