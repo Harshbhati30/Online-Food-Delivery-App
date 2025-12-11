@@ -10,9 +10,12 @@ import PlaceOrder from './pages/PlaceOrder/PlaceOrder'
 import { ToastContainer } from 'react-toastify';
 import Register from './components/Register/Register'
 import Login from './components/Login/Login'
+import MyOrders from './pages/MyOrders/MyOrders'
+import {useContext } from 'react'
+import { StoreContext } from './context/StoreContext'
 
 function App() {
-
+  const {token} = useContext(StoreContext);
 
   return (
     <>
@@ -26,9 +29,11 @@ function App() {
         <Route path='/contact' element={<Contact/>}></Route>
         <Route path='/food/:id' element={<FoodDetails/>}></Route>
         <Route path='/cart' element={<Cart/>}></Route>
-        <Route path='/order' element={<PlaceOrder/>}></Route>
-        <Route path='/login' element={ <Login/>}></Route>
-        <Route path='/register' element={ <Register/>}></Route>
+        <Route path='/order' element={token ? <PlaceOrder/> : <Login/> }></Route>
+        <Route path='/login' element={token ? <Home/> : <Login/>}></Route>
+        <Route path='/register' element={ token ? <Home/> : <Register/>}></Route>
+        <Route path='/myorders' element={token ? <MyOrders/> : <Login/>}></Route>
+
       </Routes>
       
    </div>

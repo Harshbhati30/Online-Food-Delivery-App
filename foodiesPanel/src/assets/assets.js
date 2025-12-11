@@ -8,14 +8,14 @@ import briyani from './Briyani.jpg'
 import springroll from './SpringRoll.jpg'
 import cake from './cake.png'
 import profile from './profile.jpg'
-
-
-
+import delivery from './delivery.png'
+import nonVeg from './nonVeg.jfif'
 
 export const assets =  {
   logo,
   cart1,
-  profile
+  profile,
+  delivery
 }
 
 export const categories = [
@@ -46,5 +46,9 @@ export const categories = [
   {
     category: 'Cake',
     icon: cake
+  },
+  {
+  category: 'Non-Veg',
+    icon: nonVeg
   }
 ]
