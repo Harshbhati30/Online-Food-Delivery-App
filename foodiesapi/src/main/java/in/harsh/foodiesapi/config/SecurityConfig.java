@@ -4,6 +4,8 @@ package in.harsh.foodiesapi.config;
 import in.harsh.foodiesapi.filter.JwtAuthenticationFilter;
 import in.harsh.foodiesapi.service.AppUserDetailsService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,7 +27,7 @@ import org.springframework.web.filter.CorsFilter;
 import java.util.List;
 
 @Configuration
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SecurityConfig {
 
     private final AppUserDetailsService userDetailsService;
@@ -52,10 +54,17 @@ public class SecurityConfig {
         return new CorsFilter(corsConfigurationSource());
     }
 
+    @Value("${frontend.url}")
+    private String frontendUrl;
+
+    @Value("${frontend_admin.url}")
+    private String frontendadminUrl;
+
+
     @Bean
     public UrlBasedCorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:5174"));
+        config.setAllowedOrigins(List.of(frontendUrl, frontendadminUrl));
         config.setAllowedMethods(List.of("GET" , "POST" , "PUT" , "DELETE" , "PATCH" , "OPTIONS"));
         config.setAllowedHeaders(List.of("Content-Type" , "Authorization"));
         config.setAllowCredentials(true);

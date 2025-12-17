@@ -93,6 +93,8 @@
 			<scope>runtime</scope>
 		</dependency>
 
+
+
 		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-jackson -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
@@ -133,7 +135,6 @@
 						<exclude>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
-							<version>1.18.38</version>
 						</exclude>
 					</excludes>
 				</configuration>
