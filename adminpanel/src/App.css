@@ -1,0 +1,94 @@
+/* Admin Layout Wrapper */
+.admin-wrapper {
+  display: flex;
+  min-height: 100vh;
+  background: #f3f4f6;
+}
+
+/* Page Content Wrapper */
+#page-content-wrapper {
+  flex: 1;
+  width: 100%;
+  margin-left: 0;
+  transition: margin-left 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+/* When sidebar is open - push content to the right */
+#page-content-wrapper.sidebar-open {
+  margin-left: 260px; /* Same as sidebar width */
+}
+
+/* When sidebar is closed - no margin */
+#page-content-wrapper.sidebar-closed {
+  margin-left: 0;
+}
+
+/* Main Content Area */
+.admin-main-content {
+  flex: 1;
+  background: #f3f4f6;
+  min-height: calc(100vh - 70px); /* Subtract navbar height */
+}
+
+/* Toast Container Positioning */
+.Toastify__toast-container {
+  z-index: 9999;
+}
+
+.Toastify__toast--success {
+  background: #10b981;
+}
+
+.Toastify__toast--error {
+  background: #ef4444;
+}
+
+.Toastify__toast--info {
+  background: #8b5cf6;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  /* On mobile, don't push content - overlay sidebar instead */
+  #page-content-wrapper.sidebar-open {
+    margin-left: 0;
+  }
+  
+  /* Add overlay backdrop when sidebar is open on mobile */
+  #page-content-wrapper.sidebar-open::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 997;
+    animation: fadeIn 0.3s ease;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+/* Smooth scroll for main content */
+.admin-main-content {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* Remove default Bootstrap container padding on mobile */
+@media (max-width: 768px) {
+  .admin-main-content .container-fluid {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}

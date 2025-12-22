@@ -1,23 +1,43 @@
 import React from "react";
+import "./Menubar.css";
 
-const Menubar = ({toggleSidebar}) => {
+const Menubar = ({ toggleSidebar }) => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-      <div className="container-fluid">
-        <button className="btn btn-primary" id="sidebarToggle" onClick={toggleSidebar}>
-          <i class="bi bi-list"></i>
-        </button>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
+    <nav className="admin-navbar">
+      <div className="admin-navbar-container">
+
+        {/* Left Section */}
+        <div className="admin-navbar-left">
+          <button className="sidebar-toggle-btn" onClick={toggleSidebar}>
+            <i className="bi bi-list"></i>
+          </button>
+          <h1 className="admin-title">Delhi Cafe</h1>
+        </div>
+
+        {/* Right Section */}
+        <div className="admin-navbar-right">
+          {/* Notifications */}
+          <button className="admin-icon-btn">
+            <i className="bi bi-bell"></i>
+            <span className="notification-badge">3</span>
+          </button>
+
+          {/* Settings */}
+          <button className="admin-icon-btn">
+            <i className="bi bi-gear"></i>
+          </button>
+
+          {/* Profile */}
+          <div className="admin-profile">
+            <div className="admin-profile-info">
+              <span className="admin-name">Delhi Cafe</span>
+              <span className="admin-role">Administrator</span>
+            </div>
+            <div className="admin-avatar">
+              <i className="bi bi-person-circle"></i>
+            </div>
+          </div>
+        </div>
       </div>
     </nav>
   );

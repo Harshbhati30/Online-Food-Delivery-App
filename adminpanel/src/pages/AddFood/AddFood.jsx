@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { assets } from "../../assets/assets";
 import { addFood } from "../../services/FoodService";
 import { toast } from "react-toastify";
+import "./AddFood.css";
 
 const AddFood = () => {
   const [image, setImage] = useState(false);
@@ -36,39 +37,66 @@ const AddFood = () => {
   };
 
   return (
-    <div className="mx-2 mt-2 ">
-      <div className="row">
-        <div className=" card col-md-4">
-          <div className="card-body">
-            <h2 className="mb-4">Add Food</h2>
+    <div className="add-food-container">
+      <div className="add-food-header">
+        <h2 className="page-title">
+          <i className="bi bi-plus-circle"></i>
+          Add New Food Item
+        </h2>
+        <p className="page-subtitle">Fill in the details to add a new food item to your menu</p>
+      </div>
 
-            <form onSubmit={onSubmitHandler}>
-              <div className="mb-3">
-                <label htmlFor="image" className="form-label">
-                  <img
-                    src={image ? URL.createObjectURL(image) : assets.upload}
-                    alt=""
-                    width={98}
-                  />
-                </label>
-                <input
-                  type="file"
-                  className="form-control"
-                  id="image"
-                  hidden
-                  onChange={(e) => setImage(e.target.files[0])}
-                />
+      <div className="add-food-content">
+        <div className="add-food-card">
+          <div className="image-upload-section">
+            <label htmlFor="image" className="image-upload-label">
+              <div className="image-preview">
+                {image ? (
+                  <img src={URL.createObjectURL(image)} alt="Preview" className="preview-img" />
+                ) : (
+                  <div className="upload-placeholder">
+                    <i className="bi bi-cloud-upload"></i>
+                    <span>Click to upload image</span>
+                    <small>PNG, JPG up to 5MB</small>
+                  </div>
+                )}
               </div>
+              {image && (
+                <button 
+                  type="button" 
+                  className="change-image-btn"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setImage(null);
+                  }}
+                >
+                  <i className="bi bi-arrow-repeat"></i>
+                  Change Image
+                </button>
+              )}
+            </label>
+            <input
+              type="file"
+              id="image"
+              hidden
+              accept="image/*"
+              onChange={(e) => setImage(e.target.files[0])}
+            />
+          </div>
 
-              <div className="mb-3">
+          <div className="form-section">
+            <div className="form-grid">
+              {/* Food Name */}
+              <div className="form-group full-width">
                 <label htmlFor="name" className="form-label">
-                  Name
+                  <i className="bi bi-pencil"></i>
+                  Food Name
                 </label>
                 <input
                   type="text"
-                  className="form-control"
+                  className="form-input"
                   id="name"
-                  placeholder="Chicken Briyani"
+                  placeholder="e.g., Chicken Biryani"
                   required
                   name="name"
                   onChange={onChangeHandler}
@@ -76,35 +104,40 @@ const AddFood = () => {
                 />
               </div>
 
-              <div className="mb-3">
+              {/* Description */}
+              <div className="form-group full-width">
                 <label htmlFor="description" className="form-label">
+                  <i className="bi bi-card-text"></i>
                   Description
                 </label>
                 <textarea
-                  className="form-control"
+                  className="form-textarea"
                   id="description"
-                  rows="5"
+                  rows="4"
                   required
-                  placeholder="Describe Your Food...."
+                  placeholder="Describe your food item..."
                   name="description"
                   onChange={onChangeHandler}
                   value={data.description}
                 ></textarea>
               </div>
 
-              <div className="mb-3">
+              {/* Category */}
+              <div className="form-group">
                 <label htmlFor="category" className="form-label">
+                  <i className="bi bi-tag"></i>
                   Category
                 </label>
                 <select
                   name="category"
                   id="category"
-                  className="form-control"
+                  className="form-select"
                   onChange={onChangeHandler}
                   value={data.category}
+                  required
                 >
-                  <option value="">-- Select Category --</option>
-                  <option value="Briyani">Briyani</option>
+                  <option value="">Select Category</option>
+                  <option value="Briyani">Biryani</option>
                   <option value="Cake">Cake</option>
                   <option value="Pizza">Pizza</option>
                   <option value="Burger">Burger</option>
@@ -115,25 +148,49 @@ const AddFood = () => {
                 </select>
               </div>
 
-              <div className="mb-3">
+              {/* Price */}
+              <div className="form-group">
                 <label htmlFor="price" className="form-label">
+                  <i className="bi bi-currency-rupee"></i>
                   Price
                 </label>
                 <input
                   type="number"
                   name="price"
-                  className="form-control"
-                  placeholder="&#8377;200"
+                  className="form-input"
+                  placeholder="200"
                   id="price"
                   onChange={onChangeHandler}
                   value={data.price}
+                  required
+                  min="0"
+                  step="0.01"
                 />
               </div>
+            </div>
 
-              <button type="submit" className="btn btn-primary">
-                Save
+            {/* Action Buttons */}
+            <div className="form-actions">
+              <button 
+                type="button" 
+                className="btn-cancel"
+                onClick={() => {
+                  setData({ name: "", description: "", category: "", price: "" });
+                  setImage(null);
+                }}
+              >
+                <i className="bi bi-x-circle"></i>
+                Cancel
               </button>
-            </form>
+              <button 
+                type="submit" 
+                className="btn-submit"
+                onClick={onSubmitHandler}
+              >
+                <i className="bi bi-check-circle"></i>
+                Save Food Item
+              </button>
+            </div>
           </div>
         </div>
       </div>

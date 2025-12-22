@@ -1,26 +1,68 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
-import {assets} from '../../assets/assets';
+import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { assets } from '../../assets/assets';
+import './SideBar.css';
 
-const Sidebar = ({sidebarVisible}) => {
+const Sidebar = ({ sidebarVisible }) => {
+  const location = useLocation();
+  
+  const isActive = (path) => {
+    return location.pathname === path;
+  };
+
   return (
-      <div className={`border-end bg-white ${sidebarVisible ?  '' : 'd-none'}`} id="sidebar-wrapper">
-      <div className="sidebar-heading border-bottom bg-light">
-        <img src={assets.logo} alt="" height={32} width={32} />
+    <div className={`admin-sidebar ${sidebarVisible ? 'visible' : 'hidden'}`}>
+      {/* Logo Section */}
+      <div className="sidebar-logo-section">
+        <img src={assets.logo} alt="Logo" className="sidebar-logo" />
+        <span className="sidebar-brand">Foodies Admin</span>
       </div>
-      <div className="list-group list-group-flush">
-        <Link className="list-group-item list-group-item-action list-group-item-light p-3" to="/add">
-        <i class="bi bi-plus-circle"></i>  Add Food
-        </Link>
-        <Link className="list-group-item list-group-item-action list-group-item-light p-3" to="list">
-        <i class="bi bi-list-ul"></i>  List Food
-        </Link>
-        <Link className="list-group-item list-group-item-action list-group-item-light p-3" to="/orders">
-        <i class="bi bi-cart"></i>  Orders
-        </Link>
+
+      {/* Navigation Links */}
+      <nav className="sidebar-nav">
+        <div className="nav-section">
+          <span className="nav-section-title">Menu</span>
+          
+          <Link 
+            to="/add" 
+            className={`sidebar-link ${isActive('/add') ? 'active' : ''}`}
+          >
+            <i className="bi bi-plus-circle"></i>
+            <span>Add Food</span>
+          </Link>
+
+          <Link 
+            to="/list" 
+            className={`sidebar-link ${isActive('/list') ? 'active' : ''}`}
+          >
+            <i className="bi bi-list-ul"></i>
+            <span>List Food</span>
+          </Link>
+
+          <Link 
+            to="/orders" 
+            className={`sidebar-link ${isActive('/orders') ? 'active' : ''}`}
+          >
+            <i className="bi bi-cart"></i>
+            <span>Orders</span>
+          </Link>
+        </div>
+
+
+      </nav>
+
+      {/* Footer */}
+      <div className="sidebar-footer">
+        <div className="sidebar-footer-content">
+          <i className="bi bi-shield-check"></i>
+          <div>
+            <div className="footer-title">Admin Panel</div>
+            <div className="footer-subtitle">v1.0.0</div>
+          </div>
+        </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Sidebar;
