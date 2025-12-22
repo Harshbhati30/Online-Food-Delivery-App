@@ -5,7 +5,6 @@ import { StoreContext } from "../../context/StoreContext";
 import { CalculateCartTotals } from "../../util/CartUtils";
 
 const Cart = () => {
-
   const navigate = useNavigate();
 
   const { foodList, increaseQuantity, decreaseQuantity, quantities, removeFromCart } =
@@ -13,108 +12,160 @@ const Cart = () => {
 
   const cartItem = foodList.filter((food) => quantities[food.id] > 0);
 
-  const {subtotal, shipping, tax, total} = CalculateCartTotals(cartItem, quantities);
-
+  const { subtotal, shipping, tax, total } = CalculateCartTotals(cartItem, quantities);
 
   return (
-    <div className="container py-5">
-      <h1 className="mb-5">Your Shopping Cart</h1>
-      <div className="row">
-        <div className="col-lg-8">
-          {cartItem.length === 0 ? (
-            <p>Your Cart is Empty</p>
-          ) : (
-            <div className="card mb-4">
-              <div className="card-body">
-
-                {cartItem.map((food) => (
-
-                  <div key={food.id} className="row cart-item mb-3">
-                    <div className="col-md-3">
-                      <img
-                        src={food.imageUrl}
-                        alt={food.name}
-                        className="img-fluid rounded"
-                        width={100}
-                        height={100}
-                      />
-                    </div>
-                    <div className="col-md-5">
-                      <h5 className="card-title"> {food.name}</h5>
-                      <p className="text-muted">Category:{food.category}</p>
-                    </div>
-                    <div className="col-md-2">
-                      <div className="input-group">
-                        <button
-                          className="btn btn-outline-secondary btn-sm"
-                          type="button"
-                          onClick={() => decreaseQuantity(food.id)}
-                          readOnly
-                          
-                        >
-                          -
-                        </button>
-                        
-                        <input
-                          style={{ maxWidth: "100px" }}
-                          type="text"
-                          className="form-control  form-control-sm text-center quantity-input"
-                          value={quantities[food.id]}
-                        />
-                        <button
-                          className="btn btn-outline-secondary btn-sm"
-                          type="button"
-                          onClick={() => increaseQuantity(food.id)}
-                        >
-                          +
-                        </button>
-                      </div>
-                    </div>
-                    <div className="col-md-2 text-end">
-                      <p className="fw-bold">&#8377;{(food.price * quantities[food.id]).toFixed(2)}</p>
-                      <button className="btn btn-sm btn-outline-danger" onClick={() => removeFromCart(food.id)}>
-                        <i className="bi bi-trash"></i>
-                      </button>
-                    </div>
-                    <hr />
-                  </div>
-                ))}
-                
-              </div>
+    <div className="cart-page">
+      {/* Header Section */}
+      <div className="cart-header">
+        <div className="container">
+          <div className="header-content">
+            <div>
+              <h1 className="cart-title">
+                <i className="bi bi-cart3"></i>
+                Shopping Cart
+              </h1>
+              <p className="cart-subtitle">
+                {cartItem.length} {cartItem.length === 1 ? 'item' : 'items'} in your cart
+              </p>
             </div>
-          )}
-
-          <div className="text-start mb-4">
-            <Link to="/explore" className="btn btn-outline-primary">
-              <i className="bi bi-arrow-left me-2"></i>
+            <Link to="/explore" className="btn-continue-shopping">
+              <i className="bi bi-arrow-left"></i>
               Continue Shopping
             </Link>
           </div>
         </div>
-        <div className="col-lg-4">
-          <div className="card cart-summary">
-            <div className="card-body">
-              <h5 className="card-title mb-4">Order Summary</h5>
-              <div className="d-flex justify-content-between mb-3">
-                <span>Subtotal</span>
-                <span>&#8377;{subtotal.toFixed(2)}</span>
+      </div>
+
+      {/* Main Content */}
+      <div className="container cart-container">
+        <div className="row g-4">
+          {/* Cart Items Section */}
+          <div className="col-lg-8">
+            {cartItem.length === 0 ? (
+              <div className="empty-cart">
+                <div className="empty-cart-icon">
+                  <i className="bi bi-cart-x"></i>
+                </div>
+                <h3>Your cart is empty</h3>
+                <p>Looks like you haven't added anything to your cart yet</p>
+                <Link to="/explore" className="btn-start-shopping">
+                  <i className="bi bi-search"></i>
+                  Start Shopping
+                </Link>
               </div>
-              <div className="d-flex justify-content-between mb-3">
-                <span>Shipping</span>
-                <span>&#8377;{shipping.toFixed(2)}</span>
+            ) : (
+              <div className="cart-items-wrapper">
+                {cartItem.map((food) => (
+                  <div key={food.id} className="cart-item-card">
+                    {/* Image */}
+                    <div className="cart-item-image">
+                      <img
+                        src={food.imageUrl}
+                        alt={food.name}
+                        className="food-image"
+                      />
+                    </div>
+
+                    {/* Details */}
+                    <div className="cart-item-details">
+                      <h5 className="item-name">{food.name}</h5>
+                      <span className="item-category">
+                        <i className="bi bi-tag"></i>
+                        {food.category}
+                      </span>
+                      <p className="item-price-mobile">
+                        ₹{food.price} × {quantities[food.id]}
+                      </p>
+                    </div>
+
+                    {/* Quantity Controls */}
+                    <div className="cart-item-quantity">
+                      <div className="quantity-controls-cart">
+                        <button
+                          className="btn-qty btn-decrease-cart"
+                          onClick={() => decreaseQuantity(food.id)}
+                        >
+                          <i className="bi bi-dash"></i>
+                        </button>
+                        <span className="quantity-value">{quantities[food.id]}</span>
+                        <button
+                          className="btn-qty btn-increase-cart"
+                          onClick={() => increaseQuantity(food.id)}
+                        >
+                          <i className="bi bi-plus"></i>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Price & Remove */}
+                    <div className="cart-item-actions">
+                      <p className="item-total-price">
+                        ₹{(food.price * quantities[food.id]).toFixed(2)}
+                      </p>
+                      <button
+                        className="btn-remove"
+                        onClick={() => removeFromCart(food.id)}
+                      >
+                        <i className="bi bi-trash"></i>
+                      </button>
+                    </div>
+                  </div>
+                ))}
               </div>
-              <div className="d-flex justify-content-between mb-3">
-                <span>Tax</span>
-                <span>&#8377;{tax.toFixed(2)}</span>
+            )}
+          </div>
+
+          {/* Order Summary Section */}
+          <div className="col-lg-4">
+            <div className="order-summary-card">
+              <h5 className="summary-title">
+                <i className="bi bi-receipt"></i>
+                Order Summary
+              </h5>
+
+              <div className="summary-details">
+                <div className="summary-row">
+                  <span className="summary-label">Subtotal</span>
+                  <span className="summary-value">₹{subtotal.toFixed(2)}</span>
+                </div>
+                <div className="summary-row">
+                  <span className="summary-label">Shipping</span>
+                  <span className="summary-value">₹{shipping.toFixed(2)}</span>
+                </div>
+                <div className="summary-row">
+                  <span className="summary-label">Tax</span>
+                  <span className="summary-value">₹{tax.toFixed(2)}</span>
+                </div>
               </div>
-              <hr />
-              <div className="d-flex justify-content-between mb-4">
-                <strong>Total</strong>
-                <strong>&#8377;{total.toFixed(2)}</strong>
+
+              <div className="summary-divider"></div>
+
+              <div className="summary-total">
+                <span className="total-label">Total</span>
+                <span className="total-value">₹{total.toFixed(2)}</span>
               </div>
-              <button className="btn btn-primary w-100" disabled={cartItem.length === 0} onClick={() => navigate("/order")} >
+
+              <button
+                className="btn-checkout"
+                disabled={cartItem.length === 0}
+                onClick={() => navigate("/order")}
+              >
+                <i className="bi bi-credit-card"></i>
                 Proceed to Checkout
               </button>
+
+              {/* Trust Badges */}
+              <div className="trust-badges">
+                <div className="trust-item">
+                  <i className="bi bi-shield-check"></i>
+                  <span>Secure Payment</span>
+                </div>
+                <div className="trust-item">
+                  <i className="bi bi-truck"></i>
+                  <span>Fast Delivery</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>

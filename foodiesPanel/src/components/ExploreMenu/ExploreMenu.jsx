@@ -22,14 +22,16 @@ const ExploreMenu = ({category , setCategory}) => {
 
   return (
     <div className="explore-menu position-relative">
-      <h1 className="d-flex align-items-center justify-content-between">
+      <h1 className="d-flex align-items-center justify-content-between" style={{marginLeft: '20px'}}>
         Explore Our Menu
         <div className="d-flex">
-          <i class="bi bi-arrow-left-circle scroll-icon" onClick={scrollLeft}></i>
-          <i class="bi bi-arrow-right-circle scroll-icon" onClick={scrollRight}></i>
+          <i className="bi bi-arrow-left-circle scroll-icon" onClick={scrollLeft} style={{padding: '8px'}}></i>
+          <i className="bi bi-arrow-right-circle scroll-icon" onClick={scrollRight} style={{padding: '8px'}}></i>
+
+
       </div>
       </h1>
-      <p>Explore curated lists of dishes from our top categories.</p>
+      <p style={{marginLeft: '20px'}} >Explore curated lists of dishes from our top categories.</p>
       <div className="d-flex gap-4 justify-content-between overflow-auto explore-menu-list" ref={menuRef}>
         {
           categories.map((item, index) => (

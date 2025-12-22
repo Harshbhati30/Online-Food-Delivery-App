@@ -1,51 +1,83 @@
 import React, { useContext } from "react";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { StoreContext } from "../../context/StoreContext";
+import "./FoodItem.css";
 
-const FoodItem = ({name, id, description,imageUrl ,price}) => {
-  
-  const {increaseQuantity, decreaseQuantity, quantities}=useContext(StoreContext);
-
+const FoodItem = ({ name, id, description, imageUrl, price }) => {
+  const { increaseQuantity, decreaseQuantity, quantities } = useContext(StoreContext);
 
   return (
     <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 d-flex justify-content-center">
-      <div className="card" style={{ maxWidth: "320px" }}>
-        <Link to={`/food/${id}`}> 
-        <img
-          src={imageUrl}
-          className="card-img-top"
-          alt="Product Image"
-          height={300}
-          width={60}
-        />
-        </Link>
-        <div className="card-body">
-          <h5 className="card-title">{name}</h5>
-          <p className="card-text">{description}</p>
-          <div className="d-flex justify-content-between align-items-center">
-            <span className="h5 mb-0">&#8377;{price}</span>
-            <div>
-              <i className="bi bi-star-fill text-warning"></i>
-              <i className="bi bi-star-fill text-warning"></i>
-              <i className="bi bi-star-fill text-warning"></i>
-              <i className="bi bi-star-fill text-warning"></i>
-              <i className="bi bi-star-half text-warning"></i>
-              <small className="text-muted">(4.5)</small>
+      <div className="food-card">
+        <div className="food-card-image-wrapper">
+          <Link to={`/food/${id}`}>
+            <img
+              src={imageUrl}
+              className="food-card-image"
+              alt={name}
+            />
+          </Link>
+          {quantities[id] > 0 && (
+            <div className="food-card-badge">
+              <span className="badge-quantity">
+                {quantities[id]} in cart
+              </span>
+            </div>
+          )}
+        </div>
+
+        <div className="food-card-body">
+          <Link to={`/food/${id}`} className="food-card-title-link">
+            <h5 className="food-card-title">{name}</h5>
+          </Link>
+          <p className="food-card-description">{description}</p>
+
+          <div className="food-card-info">
+            <div className="food-card-price">
+              <span className="currency">₹</span>
+              <span className="amount">{price}</span>
+            </div>
+            <div className="food-card-rating">
+              <i className="bi bi-star-fill"></i>
+              <i className="bi bi-star-fill"></i>
+              <i className="bi bi-star-fill"></i>
+              <i className="bi bi-star-fill"></i>
+              <i className="bi bi-star-half"></i>
+              <span className="rating-text">4.5</span>
             </div>
           </div>
         </div>
-        <div className="card-footer d-flex justify-content-between bg-light">
 
-          <Link className="btn btn-primary btn-sm" to={`/food/${id}`}>View Food</Link>
+        <div className="food-card-footer">
+          <Link className="btn-view-details" to={`/food/${id}`}>
+            <i className="bi bi-eye me-2"></i>
+            View Details
+          </Link>
 
           {quantities[id] > 0 ? (
-            <div  className="d-flex align-items-center gap-2">
-              <button className="btn btn-danger btn-sm" onClick={() => decreaseQuantity(id)}><i className="bi bi-dash-circle"></i></button>
-              <span className="fw-bold">{quantities[id]}</span>
-              <button className="btn btn-success btn-sm" onClick={() => increaseQuantity(id)}><i className="bi bi-plus-circle"></i></button>
+            <div className="quantity-controls">
+              <button
+                className="btn-quantity btn-decrease"
+                onClick={() => decreaseQuantity(id)}
+              >
+                <i className="bi bi-dash"></i>
+              </button>
+              <span className="quantity-display">{quantities[id]}</span>
+              <button
+                className="btn-quantity btn-increase"
+                onClick={() => increaseQuantity(id)}
+              >
+                <i className="bi bi-plus"></i>
+              </button>
             </div>
-          ): (
-            <button className="btn btn-primary btn-sm" onClick={() => increaseQuantity(id)}><i className="bi bi-plus-circle"></i></button>
+          ) : (
+            <button
+              className="btn-add-to-cart"
+              onClick={() => increaseQuantity(id)}
+            >
+              <i className="bi bi-cart-plus me-2"></i>
+              Add to Cart
+            </button>
           )}
         </div>
       </div>

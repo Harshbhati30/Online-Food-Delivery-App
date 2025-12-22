@@ -1,87 +1,112 @@
-import React, { useState } from 'react'
-import './Register.css'
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useState } from 'react';
+import './Register.css';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import axios from 'axios';
 import { registerUser } from '../../Service/authService';
 
 const Register = () => {
-
   const navigate = useNavigate();
+  const [data, setData] = useState({ name: '', email: '', password: '' });
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
-  const [data, setData]= useState({
-    name: '',
-    email: '',
-    password: ''
-  })
+  const onChangeHandler = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+  };
 
-  const onChangeHandler =(event) =>{
-    const name =event.target.name;
-    const value = event.target.value;
-    setData(data => ({...data, [name]:value}));
-  }
-
-  const onSubmitHandler = async (event) =>{
-    event.preventDefault();
+  const onSubmitHandler = async (e) => {
+    e.preventDefault();
+    setLoading(true);
     try {
       const response = await registerUser(data);
       if (response.status === 201) {
         toast.success('Registration successful!');
         navigate("/login");
-      }
-      else{
-        toast.error('Registration failed. Please try again.');
+      } else {
+        toast.error('Registration failed.');
       }
     } catch (error) {
-      toast.error('An error occurred. Please try again.');
+      toast.error('An error occurred.');
+    } finally {
+      setLoading(false);
     }
-  }
-
+  };
 
   return (
-    <div className="register-container">
-    <div className="row">
-      <div className="col-sm-9 col-md-7 col-lg-5 mx-auto">
-        <div className="card border-0 shadow rounded-3 my-5">
-          <div className="card-body p-4 p-sm-5">
-            <h5 className="card-title text-center mb-5 fw-light fs-5">Sign Up</h5>
-            <form onSubmit={onSubmitHandler}>
-              <div className="form-floating mb-3">
-                <input type="text" className="form-control" name='name' onChange={onChangeHandler} value={data.name} id="floatingName" placeholder="Enter your name"/>
-                <label htmlFor="floatingInput">Full Name</label>
-              </div>
-
-              <div className="form-floating mb-3">
-                <input type="email" className="form-control" name='email' onChange={onChangeHandler} value={data.email} id="floatingInput" placeholder="name@example.com"/>
-                <label htmlFor="floatingInput">Email address</label>
-              </div>
-
-              <div className="form-floating mb-3">
-                <input type="password" className="form-control" name='password' onChange={onChangeHandler} value={data.password} id="floatingPassword" placeholder="Password"/>
-                <label htmlFor="floatingPassword">Password</label>
-              </div>
-
-              <div className="d-grid mb-2">
-                <button className="btn btn-outline-primary btn-login text-uppercase" type="submit">Sign
-                  in</button>
-              </div>
-
-              <div className="d-grid mb-2">
-                <button className="btn btn-outline-danger btn-login text-uppercase " type="submit">
-                  <i className="bi bi-google"></i> Sign in with Google
-                </button>
-              </div>
-
-              <div className="mt-4">
-                Already have an account <Link to="/login">sign in</Link>
-              </div>
-            </form>
-          </div>
+    <div className="register-page">
+      {/* Header Section */}
+      <div className="register-header">
+        <span className="header-emoji">🍔</span>
+        <div className="container">
+          <i className="bi bi-cup-hot-fill logo-icon"></i>
+          <h2>Create Account</h2>
+          <p>Join us today</p>
         </div>
       </div>
-    </div>
-  </div>
-  )
-}
 
-export default Register
+      {/* Form Section */}
+      <section className="register-form-section">
+        <div className="container">
+          <div className="register-card">
+            <form onSubmit={onSubmitHandler} className="register-form">
+              <div className="form-group">
+                <label>Full Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={data.name}
+                  onChange={onChangeHandler}
+                  placeholder="Enter your name"
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={data.email}
+                  onChange={onChangeHandler}
+                  placeholder="Enter your email"
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Password</label>
+                <div className="password-field">
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    name="password"
+                    value={data.password}
+                    onChange={onChangeHandler}
+                    placeholder="Create a password"
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="toggle-btn"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    <i className={`bi ${showPassword ? 'bi-eye-slash' : 'bi-eye'}`}></i>
+                  </button>
+                </div>
+              </div>
+
+              <button type="submit" className="btn-register" disabled={loading}>
+                {loading ? <span className="spinner"></span> : 'Create Account'}
+              </button>
+            </form>
+
+            <p className="login-text">
+              Already have an account? <Link to="/login">Sign in</Link>
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default Register;
