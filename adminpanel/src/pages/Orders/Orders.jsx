@@ -3,6 +3,9 @@ import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import './Orders.css';
 
+const MAIN_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/api";
+const API_URL = MAIN_URL + "/orders";
+
 const Orders = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,7 +15,7 @@ const Orders = () => {
   const fetchOrders = async () => {
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:8080/api/orders/all");
+      const response = await fetch(API_URL + "/all");
       const orders = await response.json();
       setData(orders);
     } catch (error) {
@@ -25,7 +28,7 @@ const Orders = () => {
   const updateStatus = async (event, orderId) => {
     try {
       const response = await fetch(
-        `http://localhost:8080/api/orders/status/${orderId}?status=${event.target.value}`,
+        `${API_URL}/status/${orderId}?status=${event.target.value}`,
         { method: 'PATCH' }
       );
       if (response.status === 200) {

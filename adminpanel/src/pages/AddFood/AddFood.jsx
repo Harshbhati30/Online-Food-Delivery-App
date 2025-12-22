@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { assets } from "../../assets/assets";
-import { addFood } from "../../services/FoodService";
+import { addFood } from "../../services/foodService";
 import { toast } from "react-toastify";
 import "./AddFood.css";
 
