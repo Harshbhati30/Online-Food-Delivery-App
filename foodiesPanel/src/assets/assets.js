@@ -7,7 +7,7 @@ import icecream from './IceCream.jpg'
 import briyani from './Briyani.jpg'
 import springroll from './SpringRoll.jpg'
 import cake from './cake.png'
-import profile from './profile.jpg'
+import profile from './Profile.jpg'
 import delivery from './delivery.png'
 import nonVeg from './nonVeg.jfif'
 
