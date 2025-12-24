@@ -7,6 +7,10 @@ import { RAZORPAY_KEY } from '../../util/constants';
 import { useNavigate } from 'react-router-dom';
 import './PlaceOrder.css';
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/api";
+// const API_URL = MAIN_URL + "/cart";
+
+
 const PlaceOrder = () => {
   const { quantities, foodList, setQuantities, token } = useContext(StoreContext);
   const navigate = useNavigate();
@@ -48,7 +52,7 @@ const PlaceOrder = () => {
     };
 
     try {
-      const response = await fetch('http://localhost:8080/api/orders/create', {
+      const response = await fetch(API_URL + '/orders/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -107,7 +111,7 @@ const PlaceOrder = () => {
     };
     
     try {
-      const response = await fetch('http://localhost:8080/api/orders/verify', {
+      const response = await fetch(API_URL + '/orders/verify', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -131,7 +135,7 @@ const PlaceOrder = () => {
 
   const deleteOrder = async (orderId) => {
     try {
-      await fetch('http://localhost:8080/api/orders/' + orderId, {
+      await fetch(API_URL + '/orders/' + orderId, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -144,7 +148,7 @@ const PlaceOrder = () => {
 
   const clearCart = async () => {
     try {
-      await fetch('http://localhost:8080/api/cart', {
+      await fetch(API_URL + '/cart', {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
