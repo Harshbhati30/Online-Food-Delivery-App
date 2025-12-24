@@ -7,8 +7,10 @@ const MyOrders = () => {
   const { token } = useContext(StoreContext);
   const [data, setData] = useState([]);
 
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/api";
+
   const fetchOrders = async () => {
-    const response = await fetch('http://localhost:8080/api/orders', {
+    const response = await fetch(API_URL + '/orders', {
       headers: {
         Authorization: `Bearer ${token}`
       }
