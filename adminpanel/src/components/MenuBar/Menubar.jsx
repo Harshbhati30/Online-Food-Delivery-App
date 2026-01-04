@@ -11,7 +11,7 @@ const Menubar = ({ toggleSidebar }) => {
           <button className="sidebar-toggle-btn" onClick={toggleSidebar}>
             <i className="bi bi-list"></i>
           </button>
-          <h1 className="admin-title">Delhi Cafe</h1>
+          <h1 className="admin-title">Admin Dashboard</h1>
         </div>
 
         {/* Right Section */}
@@ -30,7 +30,7 @@ const Menubar = ({ toggleSidebar }) => {
           {/* Profile */}
           <div className="admin-profile">
             <div className="admin-profile-info">
-              <span className="admin-name">Delhi Cafe</span>
+              <span className="admin-name">Admin</span>
               <span className="admin-role">Administrator</span>
             </div>
             <div className="admin-avatar">
